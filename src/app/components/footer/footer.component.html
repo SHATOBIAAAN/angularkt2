@@ -1,0 +1,35 @@
+<div class="w-full px-8 py-6">
+  <div class="flex items-start gap-6">
+    <!-- Spacer to match vertical menu width (60px menu + 12px padding on each side = 84px) -->
+    <div class="shrink-0 w-[84px]"></div>
+    <!-- Content starts at the same position as recipe cards -->
+    <div class="flex-1">
+      <h4 class="text-xl font-bold mb-4 text-gray-800">More recipies</h4>
+      <div
+        class="flex flex-wrap gap-4 max-h-[600px] overflow-y-auto scrollbar-hide [scrollbar-width:none] [-ms-overflow-style:none] pb-2"
+        (scroll)="onScroll($event)"
+      >
+        @for (recipe of allRecipes; track recipe.id) {
+        <div
+          class="w-[185px] h-[150px] border border-white rounded-md flex flex-col bg-white shadow-md cursor-pointer hover:shadow-lg transition-shadow relative overflow-hidden"
+          [routerLink]="`/recipe/${recipe.id}`"
+        >
+          <img
+            [src]="recipe.image"
+            [alt]="recipe.name"
+            class="w-20 h-20 border-[3px] border-white rounded-[25px] object-cover mx-auto mt-2 absolute top-0 left-1/2 -translate-x-1/2"
+          />
+          <div class="mt-20 p-2 text-center flex-1 flex flex-col justify-end">
+            <h6 class="font-semibold text-xs mb-1 text-gray-800">
+              {{ recipe.name }}
+            </h6>
+            <p class="text-[#969696] text-[10px]">
+              {{ recipe.cookTimeMinutes }} min cooktime
+            </p>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

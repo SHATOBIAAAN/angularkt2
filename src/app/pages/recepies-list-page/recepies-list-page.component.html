@@ -1,0 +1,201 @@
+<div class="w-full px-8">
+  <!-- Difficulty Navigation -->
+  <ul class="flex items-center list-none mb-6">
+    <li>
+      <a
+        (click)="onDifficultyChange('all')"
+        [ngClass]="{
+          'text-black font-semibold': currentDifficulty === 'all',
+          'text-[#969696]': currentDifficulty !== 'all'
+        }"
+        class="mx-4 my-2 px-4 py-2 rounded cursor-pointer hover:text-black transition-colors"
+        >All</a
+      >
+    </li>
+    <li>
+      <a
+        (click)="onDifficultyChange('easy')"
+        [ngClass]="{
+          'text-black font-semibold': currentDifficulty === 'easy',
+          'text-[#969696]': currentDifficulty !== 'easy'
+        }"
+        class="mx-4 my-2 px-4 py-2 rounded cursor-pointer hover:text-black transition-colors"
+        >Easy</a
+      >
+    </li>
+    <li>
+      <a
+        (click)="onDifficultyChange('medium')"
+        [ngClass]="{
+          'text-black font-semibold': currentDifficulty === 'medium',
+          'text-[#969696]': currentDifficulty !== 'medium'
+        }"
+        class="mx-4 my-2 px-4 py-2 rounded cursor-pointer hover:text-black transition-colors"
+        >Medium</a
+      >
+    </li>
+  </ul>
+
+  <div class="flex items-start gap-6">
+    <!-- Meal Navigation (Vertical) - Left Sidebar -->
+    <div class="shrink-0">
+      <ul
+        class="flex flex-col list-none bg-gray-200 rounded-lg p-3 min-w-[60px]"
+      >
+        <li class="relative flex items-center">
+          <a
+            (click)="onMealTypeChange('breakfast')"
+            [class.text-black]="currentMealType === 'breakfast'"
+            [class.text-[#969696]]="currentMealType !== 'breakfast'"
+            class="flex [writing-mode:vertical-rl] rotate-180 text-center mb-[90px] px-2 cursor-pointer hover:text-black transition-colors relative w-full justify-center"
+          >
+            @if (currentMealType === 'breakfast') {
+            <span
+              class="absolute -left-2 top-1/2 -translate-y-1/2 w-2 h-2 bg-blue-600 rounded-full"
+            ></span>
+            } Breakfast
+          </a>
+        </li>
+        <li class="relative flex items-center">
+          <a
+            (click)="onMealTypeChange('lunch')"
+            [class.text-black]="currentMealType === 'lunch'"
+            [class.text-[#969696]]="currentMealType !== 'lunch'"
+            class="flex [writing-mode:vertical-rl] rotate-180 text-center mb-[90px] px-2 cursor-pointer hover:text-black transition-colors relative w-full justify-center"
+          >
+            @if (currentMealType === 'lunch') {
+            <span
+              class="absolute -left-2 top-1/2 -translate-y-1/2 w-2 h-2 bg-blue-600 rounded-full"
+            ></span>
+            } Lunch
+          </a>
+        </li>
+        <li class="relative flex items-center">
+          <a
+            (click)="onMealTypeChange('dinner')"
+            [class.text-black]="currentMealType === 'dinner'"
+            [class.text-[#969696]]="currentMealType !== 'dinner'"
+            class="flex [writing-mode:vertical-rl] rotate-180 text-center px-2 cursor-pointer hover:text-black transition-colors relative w-full justify-center"
+          >
+            @if (currentMealType === 'dinner') {
+            <span
+              class="absolute -left-2 top-1/2 -translate-y-1/2 w-2 h-2 bg-blue-600 rounded-full"
+            ></span>
+            } Dinner
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Recipe Cards - Horizontal Scroll -->
+    <div
+      #scrollContainer
+      class="flex-1 flex overflow-x-auto scrollbar-hide gap-8 pb-6 [scrollbar-width:none] [-ms-overflow-style:none] cursor-grab select-none"
+      style="
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        will-change: scroll-position;
+      "
+    >
+      @if (recepItem.length === 0) {
+      <div class="flex items-center justify-center w-full py-20">
+        <p class="text-[#969696] text-lg">
+          No recipes found for the selected filters.
+        </p>
+      </div>
+      } @for (recipe of recepItem; track recipe.id) {
+      <div
+        class="w-[655px] h-[465px] p-4 border-[7px] border-white rounded-[25px] shrink-0 bg-white shadow-lg"
+        style="
+          min-width: 655px;
+          max-width: 655px;
+          min-height: 465px;
+          max-height: 465px;
+        "
+      >
+        <div class="flex gap-4 h-full">
+          <!-- Left side: Recipe Info -->
+          <div class="flex-1 flex flex-col">
+            <h3 class="text-2xl font-bold mb-4 text-gray-800">
+              {{ recipe.name }}
+            </h3>
+
+            <div class="mb-4">
+              <h4 class="text-[#969696] mb-2 text-sm font-medium">
+                Ingredients
+              </h4>
+              <div class="flex flex-wrap gap-2">
+                @for (item of recipe.ingredients; track $index) {
+                <div
+                  class="flex items-center text-[10.5px] h-[23px] px-2 py-1 border-2 border-white rounded-md bg-gray-50 text-gray-700"
+                >
+                  <p>{{ recipe.ingredients[$index] }}</p>
+                </div>
+                }
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <h4 class="text-[#969696] mb-2 text-sm font-medium">
+                Information
+              </h4>
+              <div class="flex justify-around items-center gap-2">
+                <div
+                  class="w-[70px] h-[130px] border-2 border-white rounded-md flex flex-col justify-center items-center bg-white shadow-sm"
+                >
+                  <h3 class="text-xl font-bold text-gray-800">
+                    {{ recipe.caloriesPerServing }}
+                  </h3>
+                  <p class="text-[#969696] text-xs mt-1">Calories</p>
+                </div>
+                <div
+                  class="w-[70px] h-[130px] border-2 border-white rounded-md flex flex-col justify-center items-center bg-white shadow-sm"
+                >
+                  <h3 class="text-xl font-bold text-gray-800">
+                    {{ recipe.rating }}
+                  </h3>
+                  <p class="text-[#969696] text-xs mt-1">Rating</p>
+                </div>
+                <div
+                  class="w-[70px] h-[130px] border-2 border-white rounded-md flex flex-col justify-center items-center bg-white shadow-sm"
+                >
+                  <h3 class="text-xl font-bold text-gray-800">
+                    {{ recipe.prepTimeMinutes }}
+                  </h3>
+                  <p class="text-[#969696] text-xs mt-1">Prep time minutes</p>
+                </div>
+                <div
+                  class="w-[70px] h-[130px] border-2 border-white rounded-md flex flex-col justify-center items-center bg-white shadow-sm"
+                >
+                  <h3 class="text-xl font-bold text-gray-800">
+                    {{ recipe.cookTimeMinutes }}
+                  </h3>
+                  <p class="text-[#969696] text-xs mt-1">Cook time minutes</p>
+                </div>
+              </div>
+            </div>
+
+            <button
+              class="w-[124px] h-[23px] border-none rounded text-white bg-[#408EBA] hover:bg-[#3578a0] transition-colors cursor-pointer mt-auto"
+              [routerLink]="`/recipe/${recipe.id}`"
+            >
+              Recipe
+            </button>
+          </div>
+
+          <!-- Right side: Recipe Image -->
+          <div class="shrink-0">
+            <img
+              class="w-[320px] h-[320px] border-[7px] border-white rounded-[25px] object-cover"
+              [src]="recipe.image"
+              [alt]="recipe.name"
+              loading="lazy"
+              (error)="handleImageError($event)"
+            />
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>
